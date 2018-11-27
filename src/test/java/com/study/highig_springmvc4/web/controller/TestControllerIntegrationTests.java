@@ -1,6 +1,6 @@
 package com.study.highig_springmvc4.web.controller;
 
-import com.study.highig_springmvc4.MySpringMVCConfig;
+import com.study.highig_springmvc4.config.MySpringMVCConfig;
 import com.study.highig_springmvc4.service.DemoTestService;
 import org.junit.Before;
 import org.junit.Test;

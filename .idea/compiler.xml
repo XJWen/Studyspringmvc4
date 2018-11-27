@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="highig_springmvc4" />
         <module name="Study_springmvc4" />
       </profile>
     </annotationProcessing>

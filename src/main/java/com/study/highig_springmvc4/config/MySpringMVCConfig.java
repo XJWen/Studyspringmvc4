@@ -1,4 +1,4 @@
-package com.study.highig_springmvc4;
+package com.study.highig_springmvc4.config;
 
 import com.study.highig_springmvc4.messageconverter.MyMessageConverter;
 import com.study.highig_springmvc4.web.interceptor.DemoInterceptor;
@@ -15,6 +15,9 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.List;
 
+/**
+ * SpringWebMVC 关键配置部分
+ * **/
 @Configuration
 @EnableWebMvc
 @EnableScheduling
