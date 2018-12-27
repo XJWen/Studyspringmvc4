@@ -1,4 +1,4 @@
-package com.study.springmvc4.spitter.config;
+package com.study.springmvc4.spittr.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

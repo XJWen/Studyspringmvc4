@@ -1,4 +1,4 @@
-package com.study.springmvc4.spitter.config;
+package com.study.springmvc4.spittr.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * **/
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.study.springmvc4.spitter.web")
+@ComponentScan("com.study.springmvc4.spittr.web")
 public class MyWebConfig extends WebMvcConfigurerAdapter {
     /**
      * 配置jsp视图解析器
