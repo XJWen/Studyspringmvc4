@@ -1,8 +1,12 @@
-package com.study.springmvc4.spittr.web;
+package com.study.springmvc4.spittr;
 
+import com.study.springmvc4.spittr.dao.Spittle;
+import com.study.springmvc4.spittr.web.HomeController;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -17,6 +21,7 @@ public class HomeControllerTest {
         //MockMvC针对控制器执行HTTP请求的机制
         MockMvc mock = standaloneSetup(home).build();
         //发起了get请求，并断言结果视图的名称为home
-        mock.perform(get("/")).andExpect(view().name("home"));
+        mock.perform(get("/pageHome")).andExpect(view().name("home"));
     }
+
 }
