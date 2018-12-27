@@ -102,6 +102,7 @@
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.5.3</version>
         </dependency>
+        <!--json绑定依赖-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
