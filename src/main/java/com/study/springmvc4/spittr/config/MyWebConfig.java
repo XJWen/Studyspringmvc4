@@ -3,11 +3,17 @@ package com.study.springmvc4.spittr.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.servlet.ServletRegistration;
+import java.io.IOException;
 
 /**
  * 支持SpingMVC配置 @EnableWebMvc
@@ -23,7 +29,7 @@ public class MyWebConfig extends WebMvcConfigurerAdapter {
     public ViewResolver viewResolver(){
         InternalResourceViewResolver resolver =
                 new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setPrefix("/views/");
         resolver.setPrefix(".jsp");
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
@@ -36,4 +42,10 @@ public class MyWebConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+
+    @Bean
+    public MultipartResolver multResolver()throws IOException{
+        return new StandardServletMultipartResolver();
+    }
+
 }
