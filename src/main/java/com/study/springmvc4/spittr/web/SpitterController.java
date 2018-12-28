@@ -9,8 +9,16 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Part;
 import javax.validation.Valid;
+
+import java.io.File;
+import java.io.IOException;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("/spitter")
@@ -37,12 +45,46 @@ public class SpitterController {
      * 校检功能 @Vali 对参数添加校检限制
      * Errors 要紧跟在带@Vaild注解的参数后面
      * **/
-    @RequestMapping(value = "/registered",method = RequestMethod.POST)
+    @RequestMapping(value = "/registered",method = POST)
     public String processRegistration(
             @Valid Spitter spitter, Errors error){
         if (error.hasErrors()){
             return "registerForm";
         }
+        repository.save(spitter);
+        return "redircet:/spitter/"+spitter.getUsername();
+    }
+
+    /**
+     * 用户注册提交表单，如果没有上传照片，profilePicture为空数组而非null
+     * 非Servlet3.0容器
+     * **/
+    @RequestMapping(value = "/registered",method = POST)
+    public String processRegistration(
+            @RequestPart("profilePicture") MultipartFile profilePicture,
+            @Valid Spitter spitter, Errors error)throws IOException {
+        if (error.hasErrors()){
+            return "registerForm";
+        }
+        profilePicture.transferTo(
+                new File("/data/spittr/"+profilePicture.getOriginalFilename())
+        );
+        repository.save(spitter);
+        return "redircet:/spitter/"+spitter.getUsername();
+    }
+
+    /**
+     * 用户注册提交表单，如果没有上传照片，profilePicture为空数组而非null
+     * Servlet3.0容器
+     * **/
+    @RequestMapping(value = "/registered",method = POST)
+    public String processRegistration(
+            @RequestPart("profilePicture") Part profilePicture,
+            @Valid Spitter spitter, Errors error)throws IOException {
+        if (error.hasErrors()){
+            return "registerForm";
+        }
+
         repository.save(spitter);
         return "redircet:/spitter/"+spitter.getUsername();
     }

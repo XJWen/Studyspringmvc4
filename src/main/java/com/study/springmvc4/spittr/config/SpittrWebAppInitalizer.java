@@ -45,6 +45,7 @@ public class SpittrWebAppInitalizer
 
     /**
      * 配置multipart解析器，通过DispatcherServlet来添加配置
+     * MultipartConfigElement实例 参数为临时路径
      * **/
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -57,10 +58,19 @@ public class SpittrWebAppInitalizer
         );
     }
 
+    /**
+     * MultipartConfigElement参数为：
+     *上传文件的最大容量
+     * 整个multipart请求的最大容量(以字节为单位)
+     * 在上传过程中，如果文件大小达到了一个指定最大容量，将会写入临时路径中。默认值为0，也就是所有上传的文件都会写入磁盘上
+     * **/
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration){
+        long maxFileSize = 1024*1024*2;
+        long maxRequestSize = 1024*1024*4;
         registration.setMultipartConfig(
-                new MultipartConfigElement("/tmp/spittr/uploads")
+                new MultipartConfigElement("/tmp/spittr/uploads",
+                        maxFileSize,maxRequestSize,0)
         );
     }
 }
