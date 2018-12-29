@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -37,6 +38,35 @@ public class SpitterController {
     @RequestMapping(value = "/register",method = RequestMethod.GET)
     public String showRegistrationForm(){
         return "registerForm";
+    }
+
+    /**
+     *  RedirectAttributes 继承Model 可以设置flash属性
+     *  flash属性会一直携带数据到下一次请求，然后再销毁
+     *  flash保存在会话中，可跨请求传输对象
+     * **/
+    @RequestMapping(value = "/register",method = POST)
+    public String processRegistration(
+          Spitter spitter, RedirectAttributes model){
+
+        repository.save(spitter);
+        model.addAttribute("username",spitter.getUsername());
+        model.addFlashAttribute("spitter",spitter);
+        return "redirect:/spitter/{username}";
+    }
+
+    /**
+     * 将username作为占位符填充到URL模板中
+     * model中的属性没有在URL中的，会自动以查询参数的形式附加到重定向URL中
+     * **/
+    @RequestMapping(value = "/register",method = POST)
+    public String processRegistration(
+            Spitter spitter, Model model){
+
+        repository.save(spitter);
+        model.addAttribute("username",spitter.getUsername());
+        model.addAttribute("spitterid",spitter.getId());
+        return "redirect:/spitter/{username}";
     }
 
     /**
@@ -93,13 +123,16 @@ public class SpitterController {
 
     /**
      * 重定向后根据路径中的用户名去查找用户基本信息
+     * model.containsAttribute 从model中去查找相关属性
      * **/
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public String showSpitterProfile(
             @PathVariable String username, Model model){
 
-        Spitter spitter = repository.findByUsername(username);
-        model.addAttribute(spitter);
+        if (!model.containsAttribute("spitter")){
+            Spitter spitter = repository.findByUsername(username);
+            model.addAttribute(spitter);
+        }
         return "profile";
     }
 }

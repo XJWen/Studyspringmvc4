@@ -72,13 +72,10 @@ public class SpittleController {
      * redirect: 重定向到新路径
      * **/
     @RequestMapping(method = RequestMethod.POST)
-    public String saveSpittle(Spittle spittle,Model model){
-        try{
-            repository.save(spittle);
-            return "redirect:/spittles";
-        }catch (DuplicateSpittleException exception){
-            return "error.duplicate";
-        }
+    public String saveSpittle(Spittle spittle,Model model)throws DuplicateSpittleException{
+
+        repository.save(spittle);
+        return "redirect:/spittles";
     }
 
     /**
@@ -87,6 +84,6 @@ public class SpittleController {
      * **/
     @ExceptionHandler(DuplicateSpittleException.class)
     public String handleDuplicateSpittle(){
-        return "error.duplicate";
+        return "error/duplicate";
     }
 }
