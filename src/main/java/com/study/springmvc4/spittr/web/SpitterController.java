@@ -84,7 +84,9 @@ public class SpitterController {
         if (error.hasErrors()){
             return "registerForm";
         }
-
+        profilePicture.write(
+                "/data/spittr/"+profilePicture.getSubmittedFileName()
+        );
         repository.save(spitter);
         return "redircet:/spitter/"+spitter.getUsername();
     }

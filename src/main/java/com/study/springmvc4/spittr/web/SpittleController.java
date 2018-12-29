@@ -2,13 +2,12 @@ package com.study.springmvc4.spittr.web;
 
 import com.study.springmvc4.spittr.dao.Spittle;
 import com.study.springmvc4.spittr.data.SpittleRepository;
+import com.study.springmvc4.spittr.exception.DuplicateSpittleException;
+import com.study.springmvc4.spittr.exception.SpittleNotFounfException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -61,8 +60,33 @@ public class SpittleController {
     public String spittles(
             @PathVariable long spittleId,
             Model model){
-
-        model.addAttribute(repository.findOne(spittleId));
+        Spittle spittle = repository.findOne(spittleId);
+        if (spittle==null){
+            throw new SpittleNotFounfException();
+        }
+        model.addAttribute(spittle);
         return "spittle";
+    }
+
+    /**
+     * redirect: 重定向到新路径
+     * **/
+    @RequestMapping(method = RequestMethod.POST)
+    public String saveSpittle(Spittle spittle,Model model){
+        try{
+            repository.save(spittle);
+            return "redirect:/spittles";
+        }catch (DuplicateSpittleException exception){
+            return "error.duplicate";
+        }
+    }
+
+    /**
+     * 异常委托处理 @ExceptionHandler
+     * 所标注的方法能够处理同一个控制器中所有处理器方法的异常
+     * **/
+    @ExceptionHandler(DuplicateSpittleException.class)
+    public String handleDuplicateSpittle(){
+        return "error.duplicate";
     }
 }
