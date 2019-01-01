@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.3.xsd"
+    start-state="identifyCustomer">
+
+    <!--定义成变量的pojo需要序列化-->
+    <var name="order" class="com.study.springmvc4.pizza.domain.Order"/>
+    <!--默认流程定义中的第一个状态是流程访问的第一个状态-->
+    <subflow-state id="identifyCustomer" subflow="pizza/customer">
+        <output name="customer" value="order.customer"/>
+        <transition on="customerReady" to="builderOrder"/>
+    </subflow-state>
+    <subflow-state id="builderOrder" subflow="pizza/order">
+        <input name="order" value="order"/>
+        <transition on="orderCreated" to="takePayment"/>
+    </subflow-state>
+    <subflow-state id="takePayment" subflow="pizza/payment">
+        <input name="order" value="order"/>
+        <transition on="paymentTaken" to="saveOrder"/>
+    </subflow-state>
+    <action-state id="saveOrder">
+        <evaluate expression="T()"/>
+        <transition to="thankCustomer"/>
+    </action-state>
+    <view-state id="thankCustomer">
+        <transition to="endState"/>
+    </view-state>
+    <end-state id="endState"/>
+    <global-transitions>
+        <transition on="cancle" to="endState"/>
+    </global-transitions>
+</flow>
