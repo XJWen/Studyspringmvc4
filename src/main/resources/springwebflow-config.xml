@@ -8,6 +8,7 @@
     <!--定义成变量的pojo需要序列化-->
     <var name="order" class="com.study.springmvc4.pizza.domain.Order"/>
     <!--默认流程定义中的第一个状态是流程访问的第一个状态-->
+    <!--on-》代表触发事件  to-》下一个状态-->
     <subflow-state id="identifyCustomer" subflow="pizza/customer">
         <output name="customer" value="order.customer"/>
         <transition on="customerReady" to="builderOrder"/>

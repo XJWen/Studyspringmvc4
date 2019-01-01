@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.3.xsd">
+
+    <var name="customer" class="com.study.springmvc4.pizza.domain.Customer"/>
+    <view-state id="welcome">
+        <transition on="phoneEntered" to="lookupCustomer"/>
+    </view-state>
+    <action-state id="lookupCustomer">
+        <evaluate expression="T()" result="customer"/>
+        <transition to="registrationForm" on-exception="com.study.springmvc4.pizza.service"/>
+        <transition to="customerReady"/>
+    </action-state>
+    <view-state id="registrationForm" model="customer">
+        <on-entry>
+            <evaluate expression="T()"/>
+        </on-entry>
+        <transition on="submit" to="checkDeliverArea"/>
+    </view-state>
+
+    <decision-state id="checkDeliverArea">
+        <if test=""
+            then="addCustomer" else="deliveryWarning"/>
+    </decision-state>
+    <view-state id="deliveryWarning">
+        <transition on="accpet" to="addCustomer"/>
+    </view-state>
+    <action-state id="addCustomer">
+        <evaluate expression="T()"/>
+        <transition to="customerReady"/>
+    </action-state>
+    <end-state id="cancle"/>
+    <end-state id="customerReady">
+        <output name="customer"/>
+    </end-state>
+    <global-transitions>
+        <transition on="cancle" to="cancle"></transition>
+    </global-transitions>
+</flow>
