@@ -1,4 +1,6 @@
 package com.study.springmvc4.pizza.domain;
 
-public class Pizza {
+import java.io.Serializable;
+
+public class Pizza implements Serializable {
 }

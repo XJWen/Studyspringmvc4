@@ -4,7 +4,7 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.3.xsd"
     start-state="identifyCustomer">
-
+    <!--用户订购披萨主流程-->
     <!--定义成变量的pojo需要序列化-->
     <var name="order" class="com.study.springmvc4.pizza.domain.Order"/>
     <!--默认流程定义中的第一个状态是流程访问的第一个状态-->
