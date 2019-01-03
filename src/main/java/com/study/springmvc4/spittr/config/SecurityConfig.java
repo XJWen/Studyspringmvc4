@@ -1,12 +1,15 @@
 package com.study.springmvc4.spittr.config;
 
+import com.study.springmvc4.spittr.data.SpitterRepository;
+import com.study.springmvc4.spittr.security.SpitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 import javax.sql.DataSource;
 //import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
@@ -20,6 +23,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Autowired
     DataSource dataSource ;
+
+    @Autowired
+    SpitterRepository repository;
+
+    /**
+     * 针对HTTP Request做认证
+     *  .antMatchers Ant风格的通配符
+     *  .regexMatchers 正则表达式
+     *  .authenticated()允许认证过的用户访问
+     *  .anyRequest().permitAll()无条件对任意请求允许访问，其余不需要认证和任何的权限
+     *  .hasAuthority 具备某个权限
+     *  .hasRole 具备某个权限，自带ROLE_前缀
+     *  不能够在相同的路径下做不同的限制！！
+     *  可以通过.access 通过SpEL来实现多层限制
+     *
+     *   .requiresChannel() 视为需要安全通道
+     * **/
+    @Override
+    protected void configure(HttpSecurity http)throws Exception{
+        http
+                .authorizeRequests()
+//                .antMatchers("/spitters/me").hasAuthority("ROLE_SPITTER")
+//                .antMatchers("/spitters/me").hasRole("SPITTER")
+                .antMatchers("/spitters/me").access("hasRole('SPITTER') and hasIpAddress('192.168.1.2')")
+                .antMatchers(HttpMethod.POST,"/spittles").authenticated()
+                .regexMatchers("/spitters/.*").authenticated()
+                .anyRequest().permitAll()
+                .and()
+                .requiresChannel()
+                    .antMatchers("/spitter/form").requiresSecure();
+    }
 
     /**
      *配置基于内存的用户存储和基于数据库表进行认证
@@ -50,6 +84,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .contextSource()
                     .root("dc=hahuma,dc=com")
                     .ldif("classpath:users.ldif");
+
+        //使用UserDetailsService来实现用户存储
+        builder
+                .userDetailsService(new SpitterUserService(repository));
     }
 
 }
