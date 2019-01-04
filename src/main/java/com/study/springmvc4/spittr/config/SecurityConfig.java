@@ -46,6 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *   .formLogin().loginPage("/login") 指定登录页面以及登录请求
      *   .httpBasic().realmName("Spitter") 启用HTTP Basic认证 realmName指定域
      *   HTTP Basic认证会直接通过HTTP请求本身，对要访问应用称许的用户进行认证，即跨程序访问
+     *   .rememberMe() 启用用户记录功能，只要登陆一次无需再次做登录操作 .tokenValiditySeconds 在cookie中用户记录token的存活时间 .key token的私钥名
+     *   .logout() 退出功能，会清除remember_me token中的用户 .logoutSuccessUrl 退出成功后重定向的请求 .logoutUrl 执行退出操作的请求
      * **/
     @Override
     protected void configure(HttpSecurity http)throws Exception{
@@ -55,8 +57,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                 .and()
+                .logout()
+                    .logoutUrl("/signout")
+                    .logoutSuccessUrl("/login")
+                .and()
                 .httpBasic()
 //                    .realmName("Spitter")
+                .and()
+                .rememberMe()
+                    .tokenValiditySeconds(2419200)
+                    .key("spitter")
                 .and()
                 .authorizeRequests()
 //                .antMatchers("/spitters/me").hasAuthority("ROLE_SPITTER")
