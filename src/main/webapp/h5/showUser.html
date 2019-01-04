@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thyemleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:sec="http://www.thyemleaf.org/thymeleaf-extras-springsecurity3"
+      xsi:schemaLocation="http://www.thyemleaf.org "
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户展示</title>
+</head>
+<body>
+    <!--security isAuthenticated()只有进行了认证，才会渲染div的内部内容
+        authorize-url 基于给定的url的权限进行有条件的渲染
+        只有有权限访问/admin的用户才渲染<a>链接
+    -->
+    <div sec:authorize="isAuthenticated()">
+        Hello<span sec:authentication="name">someone</span>
+        <br/>
+        <span sec:authorize-url="/admin">
+            <a th:href="@{/admin}">Admin</a>
+        </span>
+    </div>
+</body>
+</html>

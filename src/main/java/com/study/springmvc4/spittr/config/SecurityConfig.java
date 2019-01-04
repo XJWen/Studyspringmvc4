@@ -3,6 +3,7 @@ package com.study.springmvc4.spittr.config;
 import com.study.springmvc4.spittr.data.SpitterRepository;
 import com.study.springmvc4.spittr.security.SpitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.dialect.SpringStandardDialect;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 import javax.sql.DataSource;
 //import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
@@ -116,4 +120,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(new SpitterUserService(repository));
     }
 
+    /**
+     * 启用Template 来注册安全方言
+     * **/
+    @Bean
+    public SpringTemplateEngine templateEngine(TemplateResolver resolver){
+
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(resolver);
+        engine.addDialect(new SpringStandardDialect());
+        return  engine;
+    }
 }
