@@ -35,24 +35,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *  .anyRequest().permitAll()无条件对任意请求允许访问，其余不需要认证和任何的权限
      *  .hasAuthority 具备某个权限
      *  .hasRole 具备某个权限，自带ROLE_前缀
+     *  .and() 方法连接配置
      *  不能够在相同的路径下做不同的限制！！
      *  可以通过.access 通过SpEL来实现多层限制
-     *
      *   .requiresChannel() 视为需要安全通道
+     *   .requiresInsecure() 始终通过HTTP请求
+     *   .requiresSecure() 重定向到HTTPS
+     *   .csrf() SpringSecurity处理CRSF（跨域请求伪造）的配置
+     *   .csrf() SpringSecurity处理CRSF（跨域请求伪造）的配置
+     *   .formLogin().loginPage("/login") 指定登录页面以及登录请求
+     *   .httpBasic().realmName("Spitter") 启用HTTP Basic认证 realmName指定域
+     *   HTTP Basic认证会直接通过HTTP请求本身，对要访问应用称许的用户进行认证，即跨程序访问
      * **/
     @Override
     protected void configure(HttpSecurity http)throws Exception{
         http
+//                .csrf()
+//                    .disable()
+                .formLogin()
+                    .loginPage("/login")
+                .and()
+                .httpBasic()
+//                    .realmName("Spitter")
+                .and()
                 .authorizeRequests()
 //                .antMatchers("/spitters/me").hasAuthority("ROLE_SPITTER")
 //                .antMatchers("/spitters/me").hasRole("SPITTER")
-                .antMatchers("/spitters/me").access("hasRole('SPITTER') and hasIpAddress('192.168.1.2')")
-                .antMatchers(HttpMethod.POST,"/spittles").authenticated()
-                .regexMatchers("/spitters/.*").authenticated()
-                .anyRequest().permitAll()
+                    .antMatchers("/spitters/me").access("hasRole('SPITTER') and hasIpAddress('192.168.1.2')")
+                    .antMatchers(HttpMethod.POST,"/spittles").authenticated()
+                    .regexMatchers("/spitters/.*").authenticated()
+                    .anyRequest().permitAll()
                 .and()
                 .requiresChannel()
-                    .antMatchers("/spitter/form").requiresSecure();
+                    .antMatchers("/spitter/form").requiresSecure()
+                    .antMatchers("/").requiresInsecure();
     }
 
     /**

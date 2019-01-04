@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<body onload="document.f.username.focus()">
+    <h3>请输入用户名和密码登录</h3>
+    <form id="f" action="/spitter/login" method="post">
+        <table>
+            <tr>
+                <td>User:</td>
+                <td><input type="text" name="username" value=""></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input name="submit" type="submit" value="Login"></td>
+            </tr>
+            <!--值为CSRF token的_csrf输入域-->
+            <input name="_csrf" type="hidden" value="6829blae-0a14-aac4-5abbd7eeb9ee">
+        </table>
+    </form>
+</body>
+</html>
