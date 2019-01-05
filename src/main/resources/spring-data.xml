@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/jee
-            http://www.springframework.org/schema/jee/spring-jee.xsd">
+            http://www.springframework.org/schema/jee/spring-jee.xsd
+            http://www.springframework.org/schema/jdbc
+            http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd">
 
     <jee:jndi-lookup jndi-name="/jdbc/SpitterDS" id="dataSource1" resource-ref="true"/>
     <bean id="dataSource2" class="org.apache.commons.dbcp2.BasicDataSource"
@@ -14,4 +17,10 @@
     <bean id="dataSource3" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
         p:driverClassName="org.h2.Driver" p:url="jdbc:h2:tcp://localhost/~/spitter"
         p:username="sa" p:password="000"/>
+
+    <!--嵌入式数据源-->
+    <jdbc:embedded-database id="dataSource4" type="H2">
+        <jdbc:script location="com/study/springmvc4/spittr/db/jdbc/schema.sql"/>
+        <jdbc:script location="com/study/springmvc4/spittr/db/jdbc/test-data.sql"/>
+    </jdbc:embedded-database>
 </beans>

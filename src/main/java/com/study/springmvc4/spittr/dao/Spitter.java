@@ -23,6 +23,8 @@ public class Spitter {
     @Size(min = 5,max = 25)
     private String password;
 
+    private String fullname;
+
     public Spitter() {
     }
 
@@ -63,6 +65,14 @@ public class Spitter {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getFullname(){
+        return getFirstname()+getLastname();
     }
 
     public String getPassword() {
