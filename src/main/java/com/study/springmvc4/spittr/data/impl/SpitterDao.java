@@ -16,7 +16,7 @@ public class SpitterDao implements SpitterRepository {
     private static final String SQL_UPDATE_SPITTER=
             "update spitter set username=?,password=?fullname=?"+"where id=?";
     private static final String SQL_SELECT_SPITTER=
-            "select id,username,fullname from spitter where id=?";
+            "select id,username,fullname from spitter where username=?";
     private DataSourceConfig dataConfig = new DataSourceConfig();
     private DataSource dataSource = dataConfig.embeddedDataSource();
 
