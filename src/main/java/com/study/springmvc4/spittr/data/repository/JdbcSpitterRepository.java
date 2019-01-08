@@ -36,6 +36,7 @@ public class JdbcSpitterRepository implements SpitterRepository {
         return new JdbcSpitterRepository(jdbcTemplate);
     }
 
+
     @Override
     public void save(Spitter spitter) {
 
@@ -68,6 +69,11 @@ public class JdbcSpitterRepository implements SpitterRepository {
                 rs.getString("lastname"),
                 rs.getString("password")
         );
+    }
+
+    @Override
+    public int eliteSweep() {
+        return 0;
     }
 
     public static final class SpitterRowMapper implements RowMapper<Spitter>{

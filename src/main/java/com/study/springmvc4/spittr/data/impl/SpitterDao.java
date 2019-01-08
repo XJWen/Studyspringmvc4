@@ -115,4 +115,9 @@ public class SpitterDao implements SpitterRepository {
             }
         }
     }
+
+    @Override
+    public int eliteSweep() {
+        return 0;
+    }
 }

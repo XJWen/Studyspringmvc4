@@ -192,6 +192,11 @@
             <artifactId>yuicompressor</artifactId>
             <version>2.4.7</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.11.16.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
