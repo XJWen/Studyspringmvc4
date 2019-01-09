@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.net.UnknownHostException;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 
 /**
  *  配置Mongo服务器运行在本地
+ *  隐式创建MongoTemplate
  * **/
 @Configuration
 @EnableMongoRepositories(basePackages = "com.study.springmvc4.orders.db")
@@ -22,6 +24,9 @@ public class SpringDataMongoConfig extends AbstractMongoConfiguration {
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    MongoOperations mongoOperations;
 
     /**
      * 返回数据库名
