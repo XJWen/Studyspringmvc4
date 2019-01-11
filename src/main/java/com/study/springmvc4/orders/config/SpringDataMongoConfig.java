@@ -17,6 +17,7 @@ import java.util.Arrays;
 /**
  *  配置Mongo服务器运行在本地
  *  隐式创建MongoTemplate
+ *  默认端口27017
  * **/
 @Configuration
 @EnableMongoRepositories(basePackages = "com.study.springmvc4.orders.db")
