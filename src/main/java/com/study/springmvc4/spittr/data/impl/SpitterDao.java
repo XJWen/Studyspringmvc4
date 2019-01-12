@@ -21,7 +21,7 @@ public class SpitterDao implements SpitterRepository {
     private DataSource dataSource = dataConfig.embeddedDataSource();
 
     @Override
-    public void save(Spitter spitter) {
+    public Spitter save(Spitter spitter) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -46,6 +46,7 @@ public class SpitterDao implements SpitterRepository {
 
             }
         }
+        return null;
     }
 
     @Override
