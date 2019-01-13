@@ -2,6 +2,7 @@ package com.study.springmvc4.spittr.data.impl;
 
 import com.study.springmvc4.spittr.dao.Spittle;
 import com.study.springmvc4.spittr.data.SpittleRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -25,6 +26,15 @@ public class SpittleRepositoryImpl implements SpittleRepository {
 
     @Override
     public void save(Spittle spittle) {
+
+    }
+    /**
+     * @CacheEvict 能够应用在返回值为void的方法上，而@Cacheable和@CahcePut需要返回非void的值
+     * 这个注解将条目从缓存中删除
+     * **/
+    @Override
+    @CacheEvict("spittleCache")
+    public void remove(Long spittleId) {
 
     }
 }
