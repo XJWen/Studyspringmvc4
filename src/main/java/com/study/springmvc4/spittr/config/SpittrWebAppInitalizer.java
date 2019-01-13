@@ -1,10 +1,14 @@
 package com.study.springmvc4.spittr.config;
 
 import com.study.springmvc4.myapp.MyFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.*;
+import java.util.Properties;
 
 /**
  * 扩展AbstractAnnotationConfigDispatcherServletInitializer
@@ -32,10 +36,23 @@ public class SpittrWebAppInitalizer
     /**
      * 应用的默认Servlet
      * 映射"/"，处理应用的所有请求
+     * 任何以".service"结束的URL请求都将由DispatcherServlet处理，它会把请求传递给匹配这个URL的控制器。
      * **/
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[]{"/","*.service"};
+    }
+
+    /**
+     * 处理对"*.service"扩展的请求
+     * **/
+    @Bean
+    public HandlerMapping httpinvokerMapping(){
+        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+        Properties properties = new Properties();
+        properties.setProperty("/spitter.service","httpExportedSpitterService");
+        mapping.setMappings(properties);
+        return mapping;
     }
 
     @Override

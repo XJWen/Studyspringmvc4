@@ -1,46 +1,72 @@
 package com.study.springmvc4.spittr.controller;
 
+
 import com.study.springmvc4.spittr.dao.Spitter;
 import com.study.springmvc4.spittr.dao.Spittle;
 import com.study.springmvc4.spittr.service.SpitterService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.remoting.rmi.RmiProxyFactoryBean;
-import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+
 
 /**
  * Rmi服务端配置
  * **/
 @Controller
-public class SpitterServiceImpl {
-    @Autowired
-    SpitterService spitterService;
+public class SpitterServiceImpl implements SpitterService {
 
-    @Bean
-    public RmiServiceExporter rmiServiceExporter(SpitterService service){
-        RmiServiceExporter exporter = new RmiServiceExporter();
-        exporter.setService(service);
-        exporter.setServiceName("SpitterService");
-        exporter.setServiceInterface(SpitterService.class);
-        return exporter;
+    @Override
+    public List<Spittle> getRecentSpittles(int count) {
+        return null;
     }
 
-    /**
-     * 通过配置Url并命名，声明此服务在本地机器上，服务的接口由setServiceInterface属性来指定
-     * **/
-    @Bean
-    public RmiProxyFactoryBean spitterService(){
-        RmiProxyFactoryBean rmiProxy = new RmiProxyFactoryBean();
-        rmiProxy.setServiceUrl("rmi://loaclhost/SpitterService");
-        rmiProxy.setServiceInterface(SpitterService.class);
-        return rmiProxy;
+    @Override
+    public void saveSpitttle(Spittle spittle) {
+
     }
 
-    public List<Spittle> getSpittles(String usename){
-        Spitter spitter = spitterService.getSpitter(usename);
-        return spitterService.getSpittlesForSpitter(spitter);
+    @Override
+    public void saveSpitter(Spitter spitter) {
+
     }
- }
+
+    @Override
+    public Spitter getSpitter(Long id) {
+        return null;
+    }
+
+    @Override
+    public void startFollowing(Spitter follower, Spitter followee) {
+
+    }
+
+    @Override
+    public List<Spittle> getSpittlesForSpitter(Spitter spitter) {
+        return null;
+    }
+
+    @Override
+    public List<Spittle> getSpittlesForSpitter(String username) {
+        return null;
+    }
+
+    @Override
+    public Spitter getSpitter(String username) {
+        return null;
+    }
+
+    @Override
+    public Spittle getSpittleById(long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteSpittle(long id) {
+
+    }
+
+    @Override
+    public List<Spitter> getAllSpitters() {
+        return null;
+    }
+}
