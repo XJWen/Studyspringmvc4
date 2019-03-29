@@ -6,6 +6,7 @@ import com.study.springmvc4.spittr.service.SpitterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.remoting.caucho.HessianServiceExporter;
+import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 import org.springframework.remoting.rmi.RmiServiceExporter;
@@ -54,7 +55,7 @@ public class MyServiceExporter {
     }
 
     /**
-     * 导出成基于Http invoker的服务配置
+     * 导出成基于Http invoker的服务配置，服务端配置
      * **/
     @Bean
     public HttpInvokerServiceExporter httpInvokerServiceExporter(SpitterService service){
@@ -62,6 +63,18 @@ public class MyServiceExporter {
         exporter.setService(service);
         exporter.setServiceInterface(SpitterService.class);
         return exporter;
+    }
+
+    /**
+     * 客户端配置代理
+     * 标识远程服务端口位置
+     * 当前Spitter实现得服务类接口
+     * **/
+    public HttpInvokerProxyFactoryBean spitterfactorybean(){
+        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
+        proxy.setServiceUrl("http://localhost:8080/Spitter/spitter.service");
+        proxy.setServiceInterface(SpitterService.class);
+        return proxy;
     }
 
     public List<Spittle> getSpittles(String usename){

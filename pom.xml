@@ -220,6 +220,8 @@
     </dependencies>
 
     <build>
+        <!--Maven的打包名-->
+        <finalName>mySpringMVC</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
